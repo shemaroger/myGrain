@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grain Harvest</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background: #fff;
+        }
+        header {
+            background: rgb(12, 12, 33);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 10px 15px;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 99;
+        }
+        .logo {
+            font-size: 2em;
+            color: #fff;
+            user-select: none;
+        }
+        .navigation a {
+            font-size: 1.1em;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            margin-left: 20px;
+        }
+        .navigation .btn {
+            background: transparent;
+            outline: none;
+            border-radius: 6px;
+            cursor: pointer;
+            color: #fff;
+            font-weight: 500;
+            transition: .5s;
+            border: 2px solid #fff;
+        }
+        .navigation .btn:hover {
+            background-color: #fff;
+            color: rgb(12, 12, 33);
+        }
+        .image-box {
+            position: relative;
+            width: 100%;
+        }
+        .image-box img {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+        }
+        .text-box {
+            position: absolute;
+            top: 50%;
+            right: 10%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .three-boxes {
+            display: flex;
+            justify-content: space-around;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .three-boxes .box {
+            background: #f8f9fa;
+            padding: 20px;
+            border: 1px solid #dee2e6;
+            border-radius: 10px;
+            flex: 1;
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body>
+<header class="d-flex">
+    <div class="logo">Grain Harvest</div>
+    <nav class="navigation d-flex ml-auto">
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Service</a>
+        <a href="#">Signup</a>
+        <a href="#">Login</a>
+        <button class="btn ml-3">Shop great deals now<br>Disability Customer Support</button>
+    </nav>
+</header>
+
+<div class="image-box">
+    <img src="../img/person-carrying-brown-basket-on-back-harvesting-vegetable-thumbnail.jpg" alt="">
+    <div class="text-box">
+        <h3>Welcome to Grain Harvest</h3>
+        <p>Your one-stop shop for the best grains and farming supplies.</p>
+    </div>
+</div>
+
+<div class="three-boxes container">
+    <div class="box">
+        <h4>Quality Products</h4>
+        <p>We provide the highest quality grains directly from the farm.</p>
+    </div>
+    <div class="box">
+        <h4>Expert Support</h4>
+        <p>Our experts are here to help you with all your farming needs.</p>
+    </div>
+    <div class="box">
+        <h4>Great Deals</h4>
+        <p>Check out our latest deals and discounts on farming products.</p>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

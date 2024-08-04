@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supplier</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            color: #FFFFFF;
+        }
+
+        header {
+            background-color: #023618;
+            border-bottom: 1px solid #e0e0e0;
+            padding: 15px;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar {
+            background-color: #095603;
+            border-bottom: 1px solid #e0e0e0;
+            color: #FFFFFF;
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            color: #FFFFFF;
+        }
+
+        .navbar-nav .nav-link {
+            color: #202124;
+            font-weight: 500;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #1967d2;
+        }
+
+        .container {
+            margin-top: 20px;
+        }
+
+        .chat-header {
+            background-color: #075e54;
+            color: #fff;
+            padding: 15px;
+            text-align: center;
+            border-radius: 5px 5px 0 0;
+        }
+
+        .chat-messages {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-top: none;
+            border-radius: 0 0 5px 5px;
+            padding: 20px;
+        }
+
+        .message-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .chat-message {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .message-info {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .message-content {
+            font-size: 16px;
+            color: #333;
+        }
+
+        .message-actions {
+            margin-top: 5px;
+        }
+
+        .message-actions a {
+            color: #075e54;
+            margin-right: 10px;
+            text-decoration: none;
+        }
+
+        .message-actions a:hover {
+            text-decoration: underline;
+        }
+
+        .create-message-form {
+            display: none; /* Initially hidden */
+        }
+
+        .form-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .form-container button {
+            background-color: #075e54;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .form-container a {
+            display: block;
+            margin-top: 10px;
+            color: #075e54;
+            text-decoration: none;
+        }
+
+        .form-container a:hover {
+            text-decoration: underline;
+        }
+
+        .details-section {
+            margin-top: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            display: none; /* Initially hidden */
+        }
+
+        .details-section.active {
+            display: block; /* Display when active */
+        }
+         .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropbtn {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: #333;
+            min-width: 200px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            border-radius: 5px;
+        }
+
+        .dropdown-content a {
+            color: white;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #444;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown:hover .dropbtn {
+            background-color: #444;
+        }
+
+        .navbar {
+            background-color: #095603;
+            border-bottom: 1px solid #e0e0e0;
+            color: #fff;
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .navbar-nav .nav-link {
+            color: #fff;
+            font-weight: 500;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #ccc;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h2>Grain Harvest Guard</h2>
+        <div class="nav-links">
+            <div class="dropdown">
+                <button class="dropbtn"><i class="fas fa-user"></i> SH <i class="fas fa-caret-down"></i></button>
+                <div class="dropdown-content">
+                    <a href="{% url 'index' %}"><i class="fas fa-home"></i> Home</a>
+                    <a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Log out</a>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        <div class="chat-header">
+            <h1>Chat Messages</h1>
+            <button id="showCreateFormBtn" class="btn btn-light">Create New Message</button>
+            <a href="{% url 'chat_message_list' %}" class="btn btn-sm btn-primary">Back to Chat</a>
+        </div>
+
+        <!-- Message List Section -->
+        <div class="chat-messages" id="messageListSection">
+            <ul class="message-list">
+                {% for message in messages %}
+                <li class="chat-message">
+                    <div class="message-info">
+                        {{ message.sender.user_name }} -> {{ message.recipient.user_name }}
+                    </div>
+                    <div class="message-content">
+                        {{ message.content }}
+                    </div>
+                    <div class="message-actions">
+                        <a href="#" class="btn btn-sm btn-info view-message"
+                            data-message-id="{{ message.pk }}">View</a>
+                        <a href="#" class="btn btn-sm btn-warning edit-message"
+                            data-message-id="{{ message.pk }}">Edit</a>
+                        <!-- <a href="#" class="btn btn-sm btn-danger delete-message"
+                            data-message-id="{{ message.pk }}">Delete</a> -->
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Create / Update Message Form Section -->
+        <div class="create-message-form" id="createFormSection">
+            <h1>{% if form.instance.pk %}Update{% else %}Create{% endif %} Chat Message</h1>
+            <form method="post" class="form-container">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Save</button>
+            </form>
+        </div>
+
+        <!-- Chat Message Detail Section -->
+        <div class="details-section" id="detailSection">
+            <h1>Chat Message Detail</h1>
+            <p>Sender: <span id="senderName"></span></p>
+            <p>Recipient: <span id="recipientName"></span></p>
+            <p>Content: <span id="messageContent"></span></p>
+            <p>Timestamp: <span id="messageTimestamp"></span></p>
+            <a href="#" id="backToListLink">Back to List</a>
+        </div>
+    </div>
+
+    <!-- JavaScript for toggling sections -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const messageListSection = document.getElementById('messageListSection');
+            const createFormSection = document.getElementById('createFormSection');
+            const detailSection = document.getElementById('detailSection');
+            const showCreateFormBtn = document.getElementById('showCreateFormBtn');
+            const backToListLink = document.getElementById('backToListLink');
+            const senderName = document.getElementById('senderName');
+            const recipientName = document.getElementById('recipientName');
+            const messageContent = document.getElementById('messageContent');
+            const messageTimestamp = document.getElementById('messageTimestamp');
+
+            // Function to hide all sections
+            function hideAllSections() {
+                messageListSection.style.display = 'none';
+                createFormSection.style.display = 'none';
+                detailSection.style.display = 'none';
+            }
+
+            // Show Message List Section
+            function showMessageList() {
+                hideAllSections();
+                messageListSection.style.display = 'block';
+            }
+
+            // Show Create Form Section
+            function showCreateForm() {
+                hideAllSections();
+                createFormSection.style.display = 'block';
+            }
+
+            // Show Message Detail Section
+            function showMessageDetail(message) {
+                hideAllSections();
+                detailSection.style.display = 'block';
+                senderName.textContent = message.sender.user_name;
+                recipientName.textContent = message.recipient.user_name;
+                messageContent.textContent = message.content;
+                messageTimestamp.textContent = message.timestamp;
+            }
+
+            // Event listeners
+            showCreateFormBtn.addEventListener('click', function (event) {
+                event.preventDefault();
+                showCreateForm();
+            });
+
+            backToListLink.addEventListener('click', function (event) {
+                event.preventDefault();
+                showMessageList();
+            });
+
+            // Attach event listener for dynamically created elements
+            messageListSection.addEventListener('click', function (event) {
+                if (event.target.classList.contains('view-message')) {
+                    const messageId = event.target.getAttribute('data-message-id');
+                    // Replace this with logic to fetch message details by ID
+                    // For now, assume you have the message object available
+                    const message = {
+                        sender: { user_name: 'SenderName' },
+                        recipient: { user_name: 'RecipientName' },
+                        content: 'Message Content',
+                        timestamp: 'Timestamp'
+                    };
+                    showMessageDetail(message);
+                } else if (event.target.classList.contains('edit-message')) {
+                    const messageId = event.target.getAttribute('data-message-id');
+                    // Replace with logic to edit message
+                    // For now, assume you redirect to edit form
+                    window.location.href = `/edit-message/${messageId}`;
+                }
+            });
+
+            // Initial view
+            showMessageList();
+        });
+    </script>
+</body>
+
+</html>

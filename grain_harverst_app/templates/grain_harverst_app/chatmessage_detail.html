@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat Message Detail</title>
+</head>
+<body>
+    <h1>Chat Message Detail</h1>
+    <p>Sender: {{ message.sender.user_name }}</p>
+    <p>Recipient: {{ message.recipient.user_name }}</p>
+    <p>Content: {{ message.content }}</p>
+    <p>Timestamp: {{ message.timestamp }}</p>
+    <a href="{% url 'chat_message_list' %}">Back to list</a>
+    <a href="{% url 'chatmessage_update' message.pk %}">Edit</a>
+    <a href="{% url 'chatmessage_delete' message.pk %}">Delete</a>
+</body>
+</html>

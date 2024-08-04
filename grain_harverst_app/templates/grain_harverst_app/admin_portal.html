@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+LBoYGt1fwWnvVX6S+A2Fp4YoVz2+tpUg1H" crossorigin="anonymous">
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #035206;
+            color: white;
+            padding: 18px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .nav-links {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .dropbtn {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: #333;
+            min-width: 200px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 5px;
+        }
+        .dropdown-content a {
+            color: white;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+        .dropdown-content a:hover {
+            background-color: #444;
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        .dropdown:hover .dropbtn {
+            background-color: #444;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #035206;
+            color: white;
+            position: fixed;
+            top: 73px;
+            bottom: 0;
+            padding-top: 20px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            overflow-y: auto;
+        }
+        .sidebar a {
+            color: white;
+            padding: 15px 20px;
+            display: block;
+            text-decoration: none;
+            font-size: 18px;
+        }
+        .sidebar a:hover, .sidebar a.active {
+            background-color: #388E3C;
+        }
+        .sidebar i {
+            margin-right: 10px;
+        }
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+            min-height: calc(100vh - 73px);
+        }
+        .table-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            overflow-x: auto;
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .table th,
+        .table td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+            font-family: 'Courier New', Courier, monospace; /* Change font here */
+        }
+        .table th {
+            background:#0F4411;
+            color: white;
+            font-weight: bold;
+        }
+        .table tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .table tbody tr:hover {
+            background-color: #f2f2f2;
+        }
+        .btn-action {
+            padding: 8px 12px;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-right: 5px;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+        .btn-warning {
+            background-color: #ffc107;
+            color: white;
+        }
+        .btn-action:hover {
+            opacity: 0.8;
+        }
+        a {
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Grain Harvest Guard</h1>
+        <div class="nav-links">
+            <div class="dropdown">
+                <button class="dropbtn"><i class="fas fa-user"></i> SH <i class="fas fa-caret-down"></i></button>
+                <div class="dropdown-content">
+                    <a href="{% url 'index' %}"><i class="fas fa-home"></i> Home</a>
+                    <a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Log out</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="sidebar">
+        <a href="{% url 'admin_portal' %}" class="active"><i class="fas fa-tachometer-alt"></i> Admin</a>
+        <a href="{% url 'signup' %}" class="active"><i class="fas fa-user-plus"></i> New user</a>
+        <a href="{% url 'success' %}" class="active"><i class="fas fa-user-plus"></i>Message</a>
+        
+    </div>
+
+    <div class="main-content">
+        <div class="table-container">
+            <h2>List of users</h2>
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>User Id</th>
+                        <th>Role</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.user_name }}</td>
+                        <td>{{ user.user_email }}</td>
+                        <td>{{ user.user_id }}</td>
+                        <td>{{ user.role }}</td>
+                        <td>
+                            <a href="{% url 'update_user' user.id %}" class="btn btn-warning btn-sm btn-action"><i class="fas fa-edit"></i> Edit</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js" integrity="sha384-MCkw/ZmM0SCpGqH2xQC3JztDiS+BDPj6NLVg6smRa+kkbkUIjCYZDYL8tWK/1P8O" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+LBoYGt1fwWnvVX6S+A2Fp4YoVz2+tpUg1H" crossorigin="anonymous"></script>
+</body>
+</html>

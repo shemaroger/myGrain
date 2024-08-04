@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmer-Supplier Chat</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f5f5f5;
+            font-family: Arial, sans-serif;
+        }
+        .chat-container {
+            max-width: 900px;
+            margin: 0 auto;
+            margin-top: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .chat-header {
+            background-color: #007bff;
+            color: #ffffff;
+            padding: 15px;
+            border-radius: 10px 10px 0 0;
+            text-align: center;
+        }
+        .chat-messages {
+            padding: 15px;
+            height: 400px;
+            overflow-y: scroll;
+        }
+        .chat-message {
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+        .chat-message.farmer {
+            background-color: #e0f7fa;
+        }
+        .chat-message.supplier {
+            background-color: #fce4ec;
+        }
+        .chat-input {
+            display: flex;
+            border-top: 1px solid #e0e0e0;
+        }
+        .chat-input input {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 0 0 0 10px;
+        }
+        .chat-input button {
+            padding: 15px;
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            border-radius: 0 0 10px 0;
+        }
+        .chat-input button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <h1>Farmer-Supplier Chat</h1>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <!-- Messages will be dynamically loaded here -->
+        </div>
+        <div class="chat-input">
+            <input type="text" id="messageInput" placeholder="Type a message...">
+            <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+        </div>
+        <button onclick="shareLocation()" class="btn btn-primary m-3"><i class="fas fa-map-marker-alt"></i> Share Location</button>
+    </div>
+    <script>
+        const chatSocket = new WebSocket(
+            'ws://' + window.location.host + '/ws/chat/room_name/'
+        );
+
+        const messages = document.getElementById('chatMessages');
+
+        chatSocket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            addMessage('supplier', data.message);
+        };
+
+        chatSocket.onclose = function(e) {
+            console.error('Chat socket closed unexpectedly');
+        };
+
+        function addMessage(role, text) {
+            const message = document.createElement('div');
+            message.classList.add('chat-message', role);
+            message.textContent = text;
+            messages.appendChild(message);
+            messages.scrollTop = messages.scrollHeight;
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value;
+            if (message) {
+                chatSocket.send(JSON.stringify({
+                    'message': message
+                }));
+                addMessage('farmer', message);
+                input.value = '';
+            }
+        }
+
+        function shareLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(position => {
+                    const { latitude, longitude } = position.coords;
+                    const locationMessage = `Location: https://www.google.com/maps?q=${latitude},${longitude}`;
+                    chatSocket.send(JSON.stringify({
+                        'message': locationMessage
+                    }));
+                    addMessage('farmer', locationMessage);
+                });
+            } else {
+                alert('Geolocation is not supported by this browser.');
+            }
+        }
+    </script>
+</body>
+</html>

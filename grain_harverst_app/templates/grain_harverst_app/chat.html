@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmer-Supplier Chat</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f5f5f5;
+            font-family: Arial, sans-serif;
+        }
+        .chat-container {
+            max-width: 900px;
+            margin: 0 auto;
+            margin-top: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .chat-header {
+            background-color: #007bff;
+            color: #ffffff;
+            padding: 15px;
+            border-radius: 10px 10px 0 0;
+            text-align: center;
+        }
+        .chat-messages {
+            padding: 15px;
+            height: 400px;
+            overflow-y: scroll;
+        }
+        .chat-message {
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+        .chat-message.farmer {
+            background-color: #e0f7fa;
+        }
+        .chat-message.supplier {
+            background-color: #fce4ec;
+        }
+        .chat-input {
+            display: flex;
+            border-top: 1px solid #e0e0e0;
+        }
+        .chat-input input {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 0 0 0 10px;
+        }
+        .chat-input button {
+            padding: 15px;
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            border-radius: 0 0 10px 0;
+            cursor: pointer; /* Add cursor pointer to indicate button functionality */
+        }
+        .chat-input button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <h1>Farmer-Supplier Chat</h1>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <!-- Messages will be dynamically loaded here -->
+        </div>
+        <div class="chat-input">
+            <input type="text" id="messageInput" placeholder="Type a message...">
+            <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+        </div>
+        <button onclick="shareLocation()" class="btn btn-primary m-3"><i class="fas fa-map-marker-alt"></i> Share Location</button>
+    </div>
+
+    <script>
+        // WebSocket initialization
+        const chatSocket = new WebSocket(
+            'ws://' + window.location.host + '/ws/chat/room_name/'  // Adjust 'room_name' to your actual WebSocket URL
+        );
+
+        // Function to handle incoming messages
+        chatSocket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            addMessage('supplier', data.message);  // Assuming 'supplier' role for received messages
+        };
+
+        // Function to handle WebSocket close event
+        chatSocket.onclose = function(e) {
+            console.error('Chat socket closed unexpectedly');
+        };
+
+        // Function to add a message to the chat interface
+        function addMessage(role, text) {
+            const message = document.createElement('div');
+            message.classList.add('chat-message', role);
+            message.textContent = text;
+            document.getElementById('chatMessages').appendChild(message);
+            document.getElementById('chatMessages').scrollTop = document.getElementById('chatMessages').scrollHeight;
+        }
+
+        // Function to send a message
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();  // Trim the input message
+
+            if (message) {
+                // Send message via WebSocket
+                chatSocket.send(JSON.stringify({
+                    'message': message
+                }));
+
+                // Add sent message to chat interface
+                addMessage('farmer', message);
+
+                // Clear input field
+                input.value = '';
+            }
+        }
+
+        // Function to share current location
+        function shareLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(position => {
+                    const { latitude, longitude } = position.coords;
+                    const locationMessage = `Location: https://www.google.com/maps?q=${latitude},${longitude}`;
+                    
+                    // Send location message via WebSocket
+                    chatSocket.send(JSON.stringify({
+                        'message': locationMessage
+                    }));
+
+                    // Add location message to chat interface
+                    addMessage('farmer', locationMessage);
+                });
+            } else {
+                alert('Geolocation is not supported by this browser.');
+            }
+        }
+    </script>
+</body>
+</html>

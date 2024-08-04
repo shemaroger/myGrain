@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Inventory Item</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f0f0f0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        p {
+            margin-bottom: 10px;
+        }
+        .button-container {
+            margin-top: 20px;
+        }
+        .button-container button, .button-container a {
+            display: inline-block;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-right: 10px;
+        }
+        .button-container button:hover, .button-container a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Confirm Delete</h1>
+        <p><strong>Product Type:</strong> {{ inventory.product_type }}</p>
+        <p><strong>Sent Quantity:</strong> {{ inventory.sent_quantity }}</p>
+        <p><strong>Supplier:</strong> {{ inventory.supplier.user_name }}</p>
+        
+        <div class="button-container">
+            <form method="post" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit">Confirm</button>
+            </form>
+            <a href="{% url 'inventory_list' %}" class="cancel-link">Cancel</a>
+        </div>
+    </div>
+</body>
+</html>

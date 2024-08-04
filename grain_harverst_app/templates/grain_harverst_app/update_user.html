@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stockkeeper Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #035206;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .nav-links {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .dropbtn {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: #333;
+            min-width: 200px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 5px;
+        }
+        .dropdown-content a {
+            color: white;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+        .dropdown-content a:hover {
+            background-color: #444;
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        .dropdown:hover .dropbtn {
+            background-color: #444;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #035206;
+            color: white;
+            position: fixed;
+            top: 73px;
+            bottom: 0;
+            padding-top: 20px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            overflow-y: auto;
+        }
+        .sidebar a {
+            color: white;
+            padding: 15px 20px;
+            display: block;
+            text-decoration: none;
+            font-size: 18px;
+        }
+        .sidebar a:hover, .sidebar a.active {
+            background-color: #388E3C;
+        }
+        .sidebar i {
+            margin-right: 10px;
+        }
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 73px);
+        }
+        .form-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 800px; /* Adjusted max-width */
+            margin: auto; /* Center aligning the form */
+        }
+        .form-container h2 {
+            color: #035206;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: bold;
+        }
+        .form-group label i {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .form-control:focus {
+            border-color: #035206;
+            box-shadow: 0 0 0 0.2rem rgba(3, 82, 6, 0.25);
+        }
+        .btn-primary {
+            background-color: #035206;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .btn-primary:hover {
+            background-color: #388E3C;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Grain Harvest Guard</h1>
+        <h3>I'm admin</h3>
+        <div class="nav-links">
+            <div class="dropdown">
+                <button class="dropbtn"><i class="fas fa-user"></i> SH <i class="fas fa-caret-down"></i></button>
+                <div class="dropdown-content">
+                    <a href="{% url 'index' %}"><i class="fas fa-home"></i> Home</a>
+                    <a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Log out</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="sidebar">
+        <a href="{% url 'admin_portal' %}" ><i class="fas fa-tachometer-alt"></i> Admin</a>
+        <a href="{% url 'signup' %}" class="active"><i class="fas fa-boxes"></i> New user</a>
+    </div>
+    <div class="main-content">
+        <div class="form-container">
+           <h2>Update User</h2>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="username"><i class="fas fa-user"></i> Username:</label>
+                <input type="text" class="form-control" id="username" name="username" value="{{ user.user_name }}">
+            </div>
+            <div class="form-group">
+                <label for="password"><i class="fas fa-lock"></i> Password:</label>
+                <input type="password" class="form-control" id="password" name="password" value="{{ user.pass_word }}">
+            </div>
+            <div class="form-group">
+                <label for="email"><i class="fas fa-envelope"></i> Email:</label>
+                <input type="email" class="form-control" id="email" name="email" value="{{ user.user_email }}">
+            </div>
+            <div class="form-group">
+                <label for="user_id"><i class="fas fa-id-badge"></i> User ID:</label>
+                <input type="text" class="form-control" id="user_id" name="user_id" value="{{ user.user_id }}">
+            </div>
+            <div class="form-group">
+                <label for="role"><i class="fas fa-user-tag"></i> Role:</label>
+                <input type="text" class="form-control" id="role" name="role" value="{{ user.role }}">
+            </div>
+            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Update</button>
+        </form>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js" integrity="sha384-MCkw/ZmM0SCpGqH2xQC3JztDiS+BDPj6NLVg6smRa+kkbkUIjCYZDYL8tWK/1P8O" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+WyF48fKpfr4r/8J+xtp+0nOuPVB2h2jPLv" crossorigin="anonymous"></script>
+</body>
+</html>

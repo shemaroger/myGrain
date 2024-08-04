@@ -1,0 +1,2 @@
+grain_harverst_app/maize_quality_models.pkl filter=lfs diff=lfs merge=lfs -text
+grain_harverst_app/rice_quality_model.pkl filter=lfs diff=lfs merge=lfs -text

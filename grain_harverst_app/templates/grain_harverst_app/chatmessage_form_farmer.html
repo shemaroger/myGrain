@@ -1,0 +1,461 @@
+update record too {% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Grain Harvest Dashboard</title>
+  <link rel="shortcut icon" type="image/png" href="{% static 'images/logos/favicon.png' %}" />
+  <link rel="stylesheet" href="{% static 'css/styles.min.css' %}" />
+</head>
+
+<body>
+  <!--  Body Wrapper -->
+  <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+    data-sidebar-position="fixed" data-header-position="fixed">
+    <!-- Sidebar Start -->
+    <aside class="left-sidebar">
+      <!-- Sidebar scroll-->
+      <div> 
+        <div class="brand-logo d-flex align-items-center justify-content-between">
+          {% comment %} <a href="index.html" class="text-nowrap logo-img">
+            <img src="{% static 'images/logos/logo.svg' %}" alt="" />
+          </a> {% endcomment %}
+          <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
+            <i class="ti ti-x fs-8"></i>
+          </div>
+        </div>
+        <!-- Sidebar navigation-->
+        <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
+        <p style="color: green; font-weight: bold;">GRAIN HARVESTE GUARD</p>
+          <ul id="sidebarnav">
+            <li class="nav-small-cap">
+              <iconify-icon icon="solar:menu-dots-linear" class="nav-small-cap-icon fs-4"></iconify-icon>
+              <span class="hide-menu" style="color: green; font-family: 'Roboto', sans-serif; font-weight: bold; font-size: 1.5em; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); padding: 5px 10px; border-radius: 5px; background-color: rgba(255, 255, 255, 0.2);">I'm Farmer</span>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="{% url 'dashboardd' %}" aria-expanded="false">
+                <iconify-icon icon="solar:widget-add-line-duotone"></iconify-icon>
+                <span class="hide-menu">Dashboard</span>
+              </a>
+            </li>
+             <li class="sidebar-item">
+              <a class="sidebar-link" href="{% url 'predict_maize_quality' %}" aria-expanded="false">
+                <iconify-icon icon="solar:widget-add-line-duotone"></iconify-icon>
+                <span class="hide-menu">Maize Quality</span>
+              </a>
+            </li>
+             <li class="sidebar-item">
+              <a class="sidebar-link" href="{% url 'predict_rice_quality' %}" aria-expanded="false">
+                <iconify-icon icon="solar:widget-add-line-duotone"></iconify-icon>
+                <span class="hide-menu">Rice Quality</span>
+              </a>
+            </li>
+             <li class="sidebar-item">
+              <a class="sidebar-link" href="{% url 'predict_wheat_quality' %}" aria-expanded="false">
+                <iconify-icon icon="solar:widget-add-line-duotone"></iconify-icon>
+                <span class="hide-menu">Wheat Quality</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="{% url 'inventory_list' %}" aria-expanded="false">
+                <iconify-icon icon="solar:widget-add-line-duotone"></iconify-icon>
+                <span class="hide-menu">Inventory</span>
+              </a>
+            </li>
+              <li class="sidebar-item">
+              <a class="sidebar-link" href="{% url 'chat_message_list_farmer' %}" aria-expanded="false">
+                <iconify-icon icon="solar:widget-add-line-duotone"></iconify-icon>
+                <span class="hide-menu">Shippement</span>
+              </a>
+            </li> 
+            <li>
+              <span class="sidebar-divider lg"></span>
+            </li>
+            <li>
+              <span class="sidebar-divider lg"></span>
+            </li>
+            <li>
+              <span class="sidebar-divider lg"></span>
+            </li>
+          </ul>
+        </nav>
+        <!-- End Sidebar navigation -->
+      </div>
+      <!-- End Sidebar scroll-->
+    </aside>
+    <!--  Sidebar End -->
+    <!--  Main wrapper -->
+    <div class="body-wrapper">
+      <!--  Header Start -->
+      <header class="app-header">
+        <nav class="navbar navbar-expand-lg navbar-light">
+          <ul class="navbar-nav">
+            <li class="nav-item d-block d-xl-none">
+              <a class="nav-link sidebartoggler " id="headerCollapse" href="javascript:void(0)">
+                <i class="ti ti-menu-2"></i>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link " href="javascript:void(0)">
+                <iconify-icon icon="solar:bell-linear" class="fs-6"></iconify-icon>
+                <div class="notification bg-primary rounded-circle"></div>
+              </a>
+            </li>
+          </ul>
+          <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
+            <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
+              <a href="#" target="_blank" class="btn btn-primary">Grain Harvest</a>
+              <li class="nav-item dropdown">
+                <a class="nav-link " href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown"
+                  aria-expanded="false">
+                  <img src="{%static 'images/profile/user-1.jpg'%}" alt="" width="35" height="35" class="rounded-circle">
+                </a>
+                <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop2">
+                  <div class="message-body">
+                    {% comment %} <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
+                      <i class="ti ti-user fs-6"></i>
+                      <p class="mb-0 fs-3">My Profile</p>
+                    </a>
+                    <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
+                      <i class="ti ti-mail fs-6"></i>
+                      <p class="mb-0 fs-3">My Account</p>
+                    </a>
+                    <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
+                      <i class="ti ti-list-check fs-6"></i>
+                      <p class="mb-0 fs-3">My Task</p>
+                    </a> {% endcomment %}
+                    <a href="{% url 'logout' %}" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </header>
+      <!--  Header End -->
+      <div class="body-wrapper-inner">
+        <div class="container-fluid">
+         
+            <h1>Chat Messages</h1>
+            <button id="showCreateFormBtn" class="btn btn-light">Create New Message</button>
+            <a href="{% url 'chat_message_list_farmer' %}" class="btn btn-sm btn-primary">Back to Chat</a>
+        </div>
+
+        <!-- Message List Section -->
+        <div class="chat-messages" id="messageListSection">
+            <ul class="message-list">
+                {% for message in messages %}
+                <li class="chat-message">
+                    <div class="message-info">
+                        {{ message.sender.user_name }} -> {{ message.recipient.user_name }}
+                    </div>
+                    <div class="message-content">
+                        {{ message.content }}
+                    </div>
+                    <div class="message-actions">
+                        {% comment %} <a href="#" class="btn btn-sm btn-info view-message" data-message-id="{{ message.pk }}">View</a> {% endcomment %}
+                        <a href="#" class="btn btn-sm btn-warning edit-message" data-message-id="{{ message.pk }}">Edit</a>
+                        <!-- <a href="#" class="btn btn-sm btn-danger delete-message" data-message-id="{{ message.pk }}">Delete</a> -->
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Create / Update Message Form Section -->
+        <div class="create-message-form" id="createFormSection">
+            <h1>{% if form.instance.pk %}Update{% else %}Create{% endif %} Chat Message</h1>
+            <form method="post" class="form-container">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Save</button>
+            </form>
+        </div>
+
+        <!-- Chat Message Detail Section -->
+        <div class="details-section" id="detailSection">
+            <h1>Chat Message Detail</h1>
+            <p>Sender: <span id="senderName"></span></p>
+            <p>Recipient: <span id="recipientName"></span></p>
+            <p>Content: <span id="messageContent"></span></p>
+            <p>Timestamp: <span id="messageTimestamp"></span></p>
+            <a href="#" id="backToListLink">Back to List</a>
+        </div>
+    </div>
+  </div>
+  <script src="{% static 'libs/jquery/dist/jquery.min.js' %}"></script>
+  <script src="{% static 'libs/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'js/sidebarmenu.js' %}"></script>
+  <script src="{% static 'js/app.min.js' %}"></script>
+  <script src="{% static 'libs/apexcharts/dist/apexcharts.min.js' %}"></script>
+  <script src="{% static 'libs/simplebar/dist/simplebar.js' %}"></script>
+  <script src="{% static 'js/dashboard.js' %}"></script>
+  <!-- solar icons -->
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+</body>
+
+</html>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supplier</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            color: #FFFFFF;
+        }
+         .chat-message {
+        font-size: 16px; /* Adjust the font size as needed */
+        color: #333; /* Default text color */
+    }
+
+    .chat-message .message-content {
+        font-size: 18px; /* Increase font size for message content */
+        color: #007bff; /* Blue color example; change to your preferred color */
+    }
+
+    .chat-message .message-actions .btn {
+        font-size: 14px; /* Font size for action buttons */
+        /* Add color styles for buttons here if needed */
+    }
+
+        header {
+            background-color: #023618;
+            border-bottom: 1px solid #e0e0e0;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .navbar {
+            background-color: #095603;
+            border-bottom: 1px solid #e0e0e0;
+            color: #FFFFFF;
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            color: #FFFFFF;
+        }
+
+        .navbar-nav .nav-link {
+            color: #202124;
+            font-weight: 500;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #1967d2;
+        }
+
+        .container {
+            margin-top: 20px;
+        }
+
+          .chat-container {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .chat-header {
+            background-color: #075e54;
+            color: #fff;
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .chat-messages {
+            padding: 20px;
+            height: 400px;
+            overflow-y: scroll;
+            background-color: #f0f0f0;
+        }
+
+        .chat-message {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 8px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .message-info {
+            font-size: 18px;
+            color: #007bff;
+            margin-bottom: 5px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .message-content {
+            font-size: 20px;
+            color: #28a745;
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        .message-actions {
+            margin-top: 5px;
+        }
+
+        .message-actions a {
+            color: #075e54;
+            margin-right: 10px;
+            text-decoration: none;
+        }
+
+
+        .message-actions a {
+            color: #075e54;
+            margin-right: 10px;
+            text-decoration: none;
+        }
+
+        .message-actions a:hover {
+            text-decoration: underline;
+        }
+
+        .create-message-form {
+            display: none; /* Initially hidden */
+        }
+
+        .form-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .form-container button {
+            background-color: #075e54;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .form-container a {
+            display: block;
+            margin-top: 10px;
+            color: #075e54;
+            text-decoration: none;
+        }
+
+        .form-container a:hover {
+            text-decoration: underline;
+        }
+
+        .details-section {
+            margin-top: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            display: none; /* Initially hidden */
+        }
+
+        .details-section.active {
+            display: block; /* Display when active */
+        }
+    </style>
+</head>
+
+<body>
+    
+  
+
+    <!-- JavaScript for toggling sections -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const messageListSection = document.getElementById('messageListSection');
+            const createFormSection = document.getElementById('createFormSection');
+            const detailSection = document.getElementById('detailSection');
+            const showCreateFormBtn = document.getElementById('showCreateFormBtn');
+            const backToListLink = document.getElementById('backToListLink');
+            const senderName = document.getElementById('senderName');
+            const recipientName = document.getElementById('recipientName');
+            const messageContent = document.getElementById('messageContent');
+            const messageTimestamp = document.getElementById('messageTimestamp');
+
+            // Function to hide all sections
+            function hideAllSections() {
+                messageListSection.style.display = 'none';
+                createFormSection.style.display = 'none';
+                detailSection.style.display = 'none';
+            }
+
+            // Show Message List Section
+            function showMessageList() {
+                hideAllSections();
+                messageListSection.style.display = 'block';
+            }
+
+            // Show Create Form Section
+            function showCreateForm() {
+                hideAllSections();
+                createFormSection.style.display = 'block';
+            }
+
+            // Show Message Detail Section
+            function showMessageDetail(message) {
+                hideAllSections();
+                detailSection.style.display = 'block';
+                senderName.textContent = message.sender.user_name;
+                recipientName.textContent = message.recipient.user_name;
+                messageContent.textContent = message.content;
+                messageTimestamp.textContent = message.timestamp;
+            }
+
+            // Event listeners
+            showCreateFormBtn.addEventListener('click', function (event) {
+                event.preventDefault();
+                showCreateForm();
+            });
+
+            backToListLink.addEventListener('click', function (event) {
+                event.preventDefault();
+                showMessageList();
+            });
+
+            // Attach event listener for dynamically created elements
+            messageListSection.addEventListener('click', function (event) {
+                if (event.target.classList.contains('view-message')) {
+                    const messageId = event.target.getAttribute('data-message-id');
+                    // Replace this with logic to fetch message details by ID
+                    // For now, assume you have the message object available
+                    const message = {
+                        sender: { user_name: 'SenderName' },
+                        recipient: { user_name: 'RecipientName' },
+                        content: 'Message Content',
+                        timestamp: 'Timestamp'
+                    };
+                    showMessageDetail(message);
+                } else if (event.target.classList.contains('edit-message')) {
+                    const messageId = event.target.getAttribute('data-message-id');
+                    // Redirect to edit form or handle edit logic here
+                    console.log('Edit message with ID:', messageId);
+                } else if (event.target.classList.contains('delete-message')) {
+                    const messageId = event.target.getAttribute('data-message-id');
+                    // Handle delete logic here
+                    console.log('Delete message with ID:', messageId);
+                }
+            });
+
+            // Initially show message list
+            showMessageList();
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Delete Chat Message</title>
+</head>
+<body>
+    <h1>Delete Chat Message</h1>
+    <p>Are you sure you want to delete this message?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Confirm</button>
+    </form>
+    <a href="{% url 'chatmessage_list' %}">Back to list</a>
+</body>
+</html>
